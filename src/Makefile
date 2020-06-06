@@ -31,7 +31,7 @@ include sources.mk
 
 OUTPUT = c1m2
 LINKER_FILE = ../msp432p401r.lds
-
+VFLAG= -DVERBOSE
 
 ifeq ($(PLATFORM),HOST)
 	CC = gcc
