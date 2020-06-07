@@ -17,18 +17,19 @@ the program itself maniplautes memory and you have various of options from the m
 ## Build options:
 
 **Generate assembly:** <br>
-`make main.asm PLATFORM=HOST`
-`cat main.asm`
+`make main.asm PLATFORM=HOST`  
+`cat main.asm`  
 <br>
 
 **Full build:**<br>
-Everytime it will give a report on size.
-`make build PLATFORM=HOST`
-`./c1m2.out`
+Everytime it will give a report on size.  
+`make build PLATFORM=HOST`  
+`./c1m2.out`  
 `cat c1m1.map` : To see how the code is mapped in memory.
 
 <br>
-#### Don't forget make clean
+
+### Don't forget make clean
 
 ## Modifications needed:
 
