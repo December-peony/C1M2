@@ -32,7 +32,7 @@ include sources.mk
 OUTPUT = c1m2
 LINKER_FILE = ../msp432p401r.lds
 VFLAG= -DVERBOSE
-
+COMMONFLAGS = $(INCLUDES) $(TARGET) $(VFLAG) -Wall -std=c99 -g -DCOURSE1
 ifeq ($(PLATFORM),HOST)
 	CC = gcc
 	LD = ld
@@ -40,7 +40,7 @@ ifeq ($(PLATFORM),HOST)
 	INCLUDES = $(INCLUDESHOST)
 	TARGET = -DHOST
 	SIZETOOL = size -A
-	CFLAGS = -Wall -std=c99 -g  $(INCLUDES) $(TARGET)
+	CFLAGS = $(COMMONFLAGS)
 	CPPFLAGs = -E
 	LDFLAGS = -Xlinker -Map=$(OUTPUT).map 
 	OBJUMP = objdump -d -M intel -S $< > $@
@@ -57,7 +57,8 @@ else
 	LDFLAGS = -Wl,-Map=$(OUTPUT).map -T $(LINKER_FILE)
 	SIZETOOL = arm-none-eabi-size -Ad
 	OBJUMP = arm-none-eabi-objdump -d -S $< > $@
-	CFLAGS = -std=c99 $(INCLUDES) -g $(TARGET) -mcpu=$(CPU) -march=$(ARCH) --specs=$(SPECS) -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall
+        EXTRA = -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
+	CFLAGS =  $(COMMONFLAGS) -mcpu=$(CPU) -march=$(ARCH) --specs=$(SPECS) $(EXTRA)
 	
 
 		
@@ -105,7 +106,7 @@ all: $(OUTPUT).out
 
 #SIZE tool, everytime you build will get you a report about size in the command line
 $(OUTPUT).out: $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS)  $(LDFLAGS) -o $@
+	$(CC) $(OBJS) $(CFLAGS)  $(LDFLAGS) -o $@ -lm
 	$(SIZETOOL) $(OUTPUT).out
 
 

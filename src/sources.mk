@@ -13,6 +13,9 @@
 
 SOURCESMSP = main.c \
 	     memory.c \
+	     stats.c \
+	     data.c \
+	     course1.c \
 	     interrupts_msp432p401r_gcc.c \
 	     startup_msp432p401r_gcc.c \
 	     system_msp432p401r.c
@@ -24,8 +27,10 @@ INCLUDESMSP = -I../include/common/ \
 # Sources and includes for Host
 
 SOURCESHOST = main.c \
-	      memory.c 
-
+	      memory.c \
+	      stats.c \
+	      data.c \
+	      course1.c
 
 
 

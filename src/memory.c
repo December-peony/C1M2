@@ -16,15 +16,17 @@
  * writing to memory via function calls. There is also a globally
  * allocated buffer array used for manipulation.
  *
- * @author Alex Fosdick
- * @date April 1 2017
- *
- */
+ * @author Alex Fosdick modified by: Esraa khaled
+ * @date April 1 2017  Modifiy date: 6 June 2020
 #include "memory.h"
 
 /***********************************************************
  Function Definitions
 ***********************************************************/
+
+#include "memory.h"
+
+
 void set_value(char * ptr, unsigned int index, char value){
   ptr[index] = value;
 }
@@ -47,4 +49,79 @@ void set_all(char * ptr, char value, unsigned int size){
 void clear_all(char * ptr, unsigned int size){
   set_all(ptr, 0, size);
 }
+
+
+uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
+
+  uint8_t * ptrm;
+  //temp is a temportary place to save data. to prevent overlap
+  uint8_t * temp;
+  temp = (uint8_t*) reserve_words(sizeof(src));
+  ptrm = &temp[0];
+  my_memcopy(src, ptrm, length);
+  uint8_t i;
+  for(i=0;i<length;i++){
+    *(dst+i) = *(ptrm+i);
+    
+  }
+  free_words( (uint32_t*)temp );
+  return dst;  
+}
+
+uint8_t * my_memcopy(uint8_t * src, uint8_t * dst, size_t length){
+  uint8_t i;
+  for(i=0;i<length;i++){
+    *(dst+i) = *(src+i);
+    
+  }
+  return dst;  
+
+}
+
+
+
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
+
+  uint8_t i;
+  for(i=0;i<length;i++){
+    *(src+i) = value;
+    
+  }
+  return src;  
+}
+
+uint8_t * my_memzero(uint8_t * src, size_t length){
+
+  uint8_t i;
+  for(i=0;i<length;i++){
+    *(src+i) = 0;
+    
+  }
+  return src;  
+}
+
+uint8_t * my_reverse(uint8_t * src, size_t length){
+  uint8_t i;
+  uint8_t temp;
+  for(i=0;i<length/2;i++){
+    temp = *(src+i);
+    *(src+i) = *(src+(length - i - 1));
+    *(src+(length - i - 1)) = temp;
+
+  }
+  return src;  
+}
+
+int32_t * reserve_words(size_t length){
+
+  int32_t * ptr = malloc(length);
+  
+  return ptr;
+   
+}
+
+void free_words(int32_t * src){
+  free(src);
+}
+
 
